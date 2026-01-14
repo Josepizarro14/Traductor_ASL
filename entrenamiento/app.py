@@ -29,6 +29,14 @@ hands = mp_hands.Hands(
 
 cap = cv2.VideoCapture(0) 
 
+if not cap.isOpened():
+    print("Error al abrir la cámara")
+    print("probando con indice 1")
+    cap = cv2.VideoCapture(1)
+    if not cap.isOpened():
+        print("No se pudo abrir la cámara")
+        exit(1)
+
 while True:
     ret, frame = cap.read()
     if not ret:
