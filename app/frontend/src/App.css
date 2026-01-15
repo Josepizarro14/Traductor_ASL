@@ -12,28 +12,36 @@ body {
   min-height: 100vh;
 }
 
+
 .app {
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   padding: 20px;
+  justify-content: center;
+  align-items: center; 
 }
 
 .app-header {
   text-align: center;
   color: white;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 }
 
 .app-header h1 {
   font-size: clamp(1.5rem, 5vw, 2.5rem);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  margin: 0;
 }
 
 .app-main {
-  max-width: 1200px;
+  max-width: 1400px;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 30px;
+  align-items: center;
 }
 
 /* Video Container */
@@ -41,7 +49,6 @@ body {
   position: relative;
   width: 100%;
   max-width: 640px;
-  margin: 0 auto;
   border-radius: 15px;
   overflow: hidden;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
@@ -73,23 +80,25 @@ body {
 /* Sentence Display */
 .sentence-container {
   background: white;
-  padding: 25px;
+  padding: 30px;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 640px;
 }
 
 .sentence-container h2 {
   color: #333;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
   font-size: clamp(1.2rem, 3vw, 1.8rem);
 }
 
 .sentence-text {
   background: #f5f5f5;
-  padding: 20px;
+  padding: 25px;
   border-radius: 10px;
-  min-height: 80px;
-  font-size: clamp(1rem, 2.5vw, 1.5rem);
+  min-height: 100px;
+  font-size: clamp(1rem, 2.5vw, 1.3rem);
   color: #333;
   word-wrap: break-word;
   line-height: 1.6;
@@ -142,29 +151,30 @@ body {
   box-shadow: 0 6px 15px rgba(244, 67, 54, 0.4);
 }
 
-/* Responsive */
+
 @media (min-width: 768px) {
-  .app-main {
-    padding: 20px;
+  .app {
+    padding: 30px;
   }
-  
-  .video-container {
-    max-width: 80%;
+
+  .sentence-container {
+    padding: 35px;
   }
 }
 
 @media (min-width: 1024px) {
   .app-main {
     flex-direction: row;
-    align-items: start;
+    align-items: center; 
+    justify-content: center;
+    gap: 40px;
   }
   
   .video-container {
-    flex: 1;
-    max-width: 640px;
+    flex: 0 1 640px;
   }
   
   .sentence-container {
-    flex: 1;
+    flex: 0 1 640px;
   }
 }
