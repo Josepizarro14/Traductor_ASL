@@ -15,4 +15,5 @@ fastapi
 uvicorn[standard] 
 python-multipart 
 websockets
-tensorflow    
+tensorflow
+gunicorn
