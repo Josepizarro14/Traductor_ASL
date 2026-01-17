@@ -20,7 +20,7 @@ function App() {
   }, []);
 
   //const { sendMessage } = useWebSocket("ws://localhost:8000/ws", handleMessage);
-  const { sendMessage } = useWebSocket("wss://raductor-josepizarro146989-0qlibp4w.leapcell.dev/ws", handleMessage);
+  const { sendMessage } = useWebSocket("wss://raductor-josepinsuco5093-agakjebu.leapcell.dev/ws", handleMessage);
   const handleSentenceBuilding = (letter) => {
 
     if(cooldown) return;

@@ -21,26 +21,33 @@ app.add_middleware(
 model = None
 classes = None
 
-# Configurar MediaPipe
-mp_hands = mp.solutions.hands
-hands = mp_hands.Hands(
-    static_image_mode=False,
-    max_num_hands=1,
-    min_detection_confidence=0.5
-)
+
+@app.get("/")
+def read_root():
+    return {"message": "API de Traductor ASL está en funcionamiento"}
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
     global model, classes
     await websocket.accept()
     try:
-        # Lazy load del modelo y clases
         if model is None or classes is None:
-            print("Cargando modelo (lazy load)")
-            script_dir = os.path.dirname(os.path.abspath(__file__))
-            model = tf.keras.models.load_model(os.path.join(script_dir, 'traductor_sena.keras'))
-            classes = np.load(os.path.join(script_dir, 'classes.npy'), allow_pickle=True)
-            print("Modelo cargado")
+            import tensorflow as tf
+            import numpy as np
+            import os
+            model = tf.keras.models.load_model(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'traductor_sena.keras'))
+            classes = np.load(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'classes.npy'), allow_pickle=True)
+
+        import mediapipe as mp
+        mp_hands = mp.solutions.hands
+        hands = mp_hands.Hands(
+            static_image_mode=False,
+            max_num_hands=1,
+            min_detection_confidence=0.5
+        )
+
+        import cv2
+        import base64
 
         while True:
             data = await websocket.receive_text()
