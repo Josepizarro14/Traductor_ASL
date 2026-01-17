@@ -9,22 +9,17 @@ import os
 
 app = FastAPI()
 
-
 app.add_middleware(
     CORSMiddleware,
-    #allow_origins=["*"],
-    allow_origins=["https://traductor-asl.vercel.app"],  
+    allow_origins=["https://traductor-asl.vercel.app"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 
-print("Cargando modelo")
-script_dir = os.path.dirname(os.path.abspath(__file__))
-model = tf.keras.models.load_model(os.path.join(script_dir, 'traductor_sena.keras'))
-classes = np.load(os.path.join(script_dir, 'classes.npy'), allow_pickle=True)
-print("Modelo cargado")
+model = None
+classes = None
 
 # Configurar MediaPipe
 mp_hands = mp.solutions.hands
@@ -36,19 +31,24 @@ hands = mp_hands.Hands(
 
 @app.websocket("/ws")
 async def websocket_endpoint(websocket: WebSocket):
+    global model, classes
     await websocket.accept()
     try:
+        # Lazy load del modelo y clases
+        if model is None or classes is None:
+            print("Cargando modelo (lazy load)")
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            model = tf.keras.models.load_model(os.path.join(script_dir, 'traductor_sena.keras'))
+            classes = np.load(os.path.join(script_dir, 'classes.npy'), allow_pickle=True)
+            print("Modelo cargado")
+
         while True:
-      
             data = await websocket.receive_text()
-            
-    
             header, encoded = data.split(",", 1)
             img_bytes = base64.b64decode(encoded)
             nparr = np.frombuffer(img_bytes, np.uint8)
             frame = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
 
-  
             frame_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             results = hands.process(frame_rgb)
 
@@ -65,14 +65,11 @@ async def websocket_endpoint(websocket: WebSocket):
                     class_name = str(classes[class_index])
                     confidence = float(np.max(prediction))
                     
-           
                     if confidence > 0.8:
                         response = {
                             "letter": class_name,
                             "confidence": confidence
                         }
-            
-
             await websocket.send_json(response)
 
     except WebSocketDisconnect:
