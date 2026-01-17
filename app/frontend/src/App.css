@@ -146,6 +146,9 @@ body {
     border-radius: 15px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
     margin-top: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 400px; 
 }
 
 .alfabeto-container h3 {
@@ -158,4 +161,11 @@ body {
     width: 100%;
     height: auto;
     border-radius: 10px;
+}
+
+@media (min-width: 768px) {
+  .alfabeto-container {
+    grid-column: 1 / -1;
+    justify-self: center;
+  }
 }

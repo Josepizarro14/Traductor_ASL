@@ -8,7 +8,7 @@ import './App.css';
 function App() {
   const [sentence, setSentence] = useState("");
   const [currentLetter, setCurrentLetter] = useState("-");
-  
+  const [cooldown, setCooldown] = useState(false);
   const lastLetterRef = useRef("-");
   const framesConsistent = useRef(0);
 
@@ -22,6 +22,9 @@ function App() {
   const { sendMessage } = useWebSocket("ws://localhost:8000/ws", handleMessage);
 
   const handleSentenceBuilding = (letter) => {
+
+    if(cooldown) return;
+
     if (letter === lastLetterRef.current) {
       framesConsistent.current += 1;
     } else {
@@ -38,6 +41,8 @@ function App() {
         setSentence(prev => prev + letter);
       }
       framesConsistent.current = 0;
+      setCooldown(true);
+      setTimeout(() => setCooldown(false), 1000);
     }
   };
 
