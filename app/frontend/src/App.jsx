@@ -2,6 +2,7 @@ import { useState, useRef, useCallback } from 'react';
 import VideoCapture from './components/Camara.jsx';
 import SentenceDisplay from './components/Pantalla.jsx';
 import useWebSocket from './hooks/useWebSocket.jsx';
+import Alfabeto from './components/Alfabeto.jsx'; 
 import './App.css';
 
 function App() {
@@ -46,6 +47,10 @@ function App() {
     window.speechSynthesis.speak(utterance);
   };
 
+  const deleteLast = () => {
+    setSentence(prev => prev.slice(0, -1));
+  };
+
   return (
     <div className="app">
       <header className="app-header">
@@ -62,7 +67,9 @@ function App() {
           sentence={sentence}
           onSpeak={speakSentence}
           onClear={() => setSentence("")}
+          onDeleteLast={deleteLast}
         />
+        <Alfabeto />
       </main>
     </div>
   );

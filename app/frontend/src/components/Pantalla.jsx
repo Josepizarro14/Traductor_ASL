@@ -1,4 +1,4 @@
-function SentenceDisplay({ sentence, onSpeak, onClear }) {
+function SentenceDisplay({ sentence, onSpeak, onClear, onDeleteLast }) {
   return (
     <div className="sentence-container">
       <h2>Oración:</h2>
@@ -14,11 +14,18 @@ function SentenceDisplay({ sentence, onSpeak, onClear }) {
           Escuchar
         </button>
         <button 
+          onClick={onDeleteLast} 
+          className="btn btn-delete"
+          disabled={!sentence}
+        >
+          Borrar Última
+        </button>
+        <button 
           onClick={onClear} 
           className="btn btn-clear"
           disabled={!sentence}
         >
-          Borrar
+          Borrar Todo
         </button>
       </div>
     </div>
