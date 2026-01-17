@@ -11,3 +11,8 @@ seaborn
 tqdm
 notebook
 ipywidgets
+fastapi 
+uvicorn[standard] 
+python-multipart 
+websockets
+tensorflow    
