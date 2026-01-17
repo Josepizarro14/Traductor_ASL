@@ -18,14 +18,14 @@ function SentenceDisplay({ sentence, onSpeak, onClear, onDeleteLast }) {
           className="btn btn-delete"
           disabled={!sentence}
         >
-          Borrar Última
+          Borrar letra
         </button>
         <button 
           onClick={onClear} 
           className="btn btn-clear"
           disabled={!sentence}
         >
-          Borrar Todo
+          Borrar todo
         </button>
       </div>
     </div>
