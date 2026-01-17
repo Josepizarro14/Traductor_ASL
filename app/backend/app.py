@@ -79,3 +79,7 @@ async def websocket_endpoint(websocket: WebSocket):
         print("Cliente desconectado")
     except Exception as e:
         print(f"Error: {e}")
+
+@app.get("/kaithheathcheck")
+def healthcheck():
+    return {"status": "ok"}
